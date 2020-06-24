@@ -53,6 +53,20 @@ void Pilha_Erros(Pilha *tags, char *string){
 }
 }
 
+int verifica(char *string){
+	//printf("%s", string);
+	for(int i=0; i<strlen(string); i++){	
+	if(string[i] == '<'){
+		if((strcmp("<!DOCTYPE>", string) == 0) || (strcmp("<input>", string) == 0)
+		|| (strcmp("<img>", string) == 0) || (strcmp("<frame>", string) == 0)
+		|| (strcmp("<br>", string) == 0))
+		{
+			return 1;
+		}
+	}
+	}
+
+}
 
 int main(){
 	Pilha tag;
@@ -63,12 +77,14 @@ int main(){
 	//printf("Qual o nome do arquivo?\n");
 	//scanf("html.txt", nome_arquivo);
 	arquivo = fopen("html.txt", "r");
-	
+	int verificador = 0;
 	char c;
 	char string[50];
 	
-	while(c=getc(arquivo) != EOF){
+	while(!feof(arquivo)){
+		if(verificador == 1)break;
 		fscanf(arquivo, "%s", string);
+				if(verifica(string) != 1){
 				for(int i=0; i<=strlen(string+1);i++){
 				if((string[i] == '<') && (string[i+1] == '/' && (string[strlen(string)-1] == '>'))){
 					for(int j=i+1; j<strlen(string);j++)
@@ -77,12 +93,15 @@ int main(){
 						Pilha_Pop(&tag);
 					}else {
 						Pilha_Erros(&tag, string);
+						verificador = 1;
+						break;
 					}
 				}else if(string[i] == '<'){
 					Pilha_Push(string, &tag);
 				}
 	
-			}
+			}	
+				}
 	}
 	
 	
