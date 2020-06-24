@@ -54,7 +54,6 @@ void Pilha_Erros(Pilha *tags, char *string){
 }
 
 int verifica(char *string){
-	//printf("%s", string);
 	for(int i=0; i<strlen(string); i++){	
 	if(string[i] == '<'){
 		if((strcmp("<!DOCTYPE>", string) == 0) || (strcmp("<input>", string) == 0)
@@ -68,47 +67,55 @@ int verifica(char *string){
 
 }
 
-int main(){
-	Pilha tag;
-	Pilha_Inicia(&tag);
-	
-	char nome_arquivo[50];
-	FILE *arquivo;
-	//printf("Qual o nome do arquivo?\n");
-	//scanf("html.txt", nome_arquivo);
-	arquivo = fopen("html.txt", "r");
-	int verificador = 0;
-	char c;
-	char string[50];
-	
-	while(!feof(arquivo)){
-		if(verificador == 1)break;
-		fscanf(arquivo, "%s", string);
-				if(verifica(string) != 1){
-				for(int i=0; i<=strlen(string+1);i++){
-				if((string[i] == '<') && (string[i+1] == '/' && (string[strlen(string)-1] == '>'))){
-					for(int j=i+1; j<strlen(string);j++)
-					string[j] = string[j+1]; 
-					if(strcmp(tag.vetor[tag.topo], string) == 0){
-						Pilha_Pop(&tag);
-					}else {
-						Pilha_Erros(&tag, string);
-						verificador = 1;
-						break;
+int main(int argc, char *argv[]){
+	if(argc > 1){
+		Pilha tag;
+		Pilha_Inicia(&tag);
+		
+		char nome_arquivo[50];
+		FILE *arquivo;
+		
+		if(arquivo != NULL){
+		arquivo = fopen("html.txt", "r");
+		int verificador = 0;
+		char c;
+		char string[50];
+		
+		while(!feof(arquivo)){
+			if(verificador == 1)break;
+			fscanf(arquivo, "%s", string);
+					if(verifica(string) != 1){
+					for(int i=0; i<=strlen(string+1);i++){
+					if((string[i] == '<') && (string[i+1] == '/' && (string[strlen(string)-1] == '>'))){
+						for(int j=i+1; j<strlen(string);j++)
+						string[j] = string[j+1]; 
+						if(strcmp(tag.vetor[tag.topo], string) == 0){
+							Pilha_Pop(&tag);
+						}else {
+							Pilha_Erros(&tag, string);
+							verificador = 1;
+							break;
+						}
+					}else if(string[i] == '<'){
+						Pilha_Push(string, &tag);
 					}
-				}else if(string[i] == '<'){
-					Pilha_Push(string, &tag);
-				}
-	
+		
+				}	
+					}
+		}
+		
+		
+			if(Pilha_Vazia(&tag) == 1){
+				printf("\nTodas as tags foram fechadas corretamente!\n");
+			}else if(Pilha_Vazia(&tag) == 0){
+				printf("Existem elementos a serem fechados corretamente");
 			}	
-				}
-	}
-	
-	
-	if(Pilha_Vazia(&tag) == 1){
-		printf("\nTodas as tags foram fechadas corretamente!\n");
-	}else if(Pilha_Vazia(&tag) == 0){
-		printf("Existem elementos a serem fechados corretamente");
+		}else{
+			printf("Falha ao abrir aquivo!\n");
+		}	
+	}else{
+		printf("Faltam argumentos!\n");
+		printf("\"program\" \"nome_do_arquivo.txt\"");
 	}
 	
 }
