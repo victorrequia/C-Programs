@@ -73,10 +73,11 @@ int main(int argc, char *argv[]){
 		Pilha_Inicia(&tag);
 		
 		char nome_arquivo[50];
+		
 		FILE *arquivo;
 		
 		if(arquivo != NULL){
-		arquivo = fopen("html.txt", "r");
+		arquivo = fopen(argv[1], "r");
 		int verificador = 0;
 		char c;
 		char string[50];
