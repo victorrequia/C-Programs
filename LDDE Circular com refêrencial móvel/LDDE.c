@@ -248,14 +248,9 @@ int buscaNaPosicao(Descritor *lista, int posAlvo){
 int removeDaPosLog(Descritor *lista, int posAlvo){
 	if((posAlvo < lista->TamInfo) && (posAlvo >= 0)){
 		int valor = buscaNaPosicao(lista, posAlvo);
-		/*printf("\n\n%i\n\n", lista->refMovel->info);
-		printf("\n\n%i\n\n", lista->refMovel->proximo->info);
-		printf("\n\n%i\n\n", lista->refMovel->anterior->info);*/
 		
 		Nodo *auxProximo = lista->refMovel->proximo;
 		Nodo *auxAnterior = lista->refMovel->anterior;
-		
-		//printf("\n\n\%i %i\n\n", auxProximo->info, auxAnterior->info);
 		
 		auxProximo->anterior = auxAnterior;
 		auxAnterior->proximo = auxProximo;
@@ -265,11 +260,7 @@ int removeDaPosLog(Descritor *lista, int posAlvo){
 		Nodo *remover = lista->refMovel;
 		free(remover); //????????
 		
-		//printf("\n\n%i\n\n", lista->refMovel->info);
-		
 		lista->refMovel = auxAnterior;	
-	
-		//printf("\n\n%i %i\n\n", lista->refMovel->info, lista->posLogAtual);
 		
 		if(posAlvo == lista->TamInfo-1){
 			lista->primeiraPos->proximo = lista->refMovel->anterior;
