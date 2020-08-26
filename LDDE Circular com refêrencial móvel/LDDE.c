@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <locale.h>
+#include<stdbool.h>
 
 typedef struct No{
 	int info;
@@ -17,6 +18,7 @@ typedef struct Desc{
 	Nodo *ultimaPos;
 }Descritor;
 
+bool listaVazia(Descritor *lista);
 void iniciaLista(Descritor *lista);
 void adicionaNoInicioLista(Descritor *lista, int valor);
 void adicionaNaPosicao(Descritor *lista, int valor, int posicao);
@@ -24,55 +26,63 @@ void adicionaFinalLista(Descritor *lista, int valor);
 int tamanhoDaLista(Descritor *lista);
 int buscaNaPosicao(Descritor *lista, int posAlvo);
 int removeDaPosLog(Descritor *lista, int posAlvo);
+void imprimeLista(Descritor *lista);
 
 int main (int argc, char **argv){
 	setlocale(LC_ALL, "Portuguese");
 	Descritor lista;
 	iniciaLista(&lista);
 	
-	adicionaNoInicioLista(&lista, 5);
-	printf("Elemento %i inserido no Inicio da Lista\n", lista.primeiraPos->info);
+	adicionaNoInicioLista(&lista, 0);
+	printf("Elemento 0 adicionado no inicio da lista");
+	adicionaNaPosicao(&lista, 1, 1);
+	printf("\nElemento 1 adicionado no na posicao 1 da lista");
+	adicionaNaPosicao(&lista, 2, 2);
+	printf("\nElemento 2 adicionado no na posicao 2 da lista");
+	adicionaFinalLista(&lista, 3);
+	printf("\nElemento 3 adicionado no fim da lista");
+	adicionaFinalLista(&lista, 4);
+	printf("\nElemento 4 adicionado no fim da lista");
+	adicionaNaPosicao(&lista, 5, 5);
+	printf("\nElemento 5 adicionado no na posicao 5 da lista");
 	adicionaNoInicioLista(&lista, 10);
-	printf("Elemento %i inserido no Inicio da Lista\n", lista.primeiraPos->info);
-	adicionaNoInicioLista(&lista, 15);
-	printf("Elemento %i inserido no Inicio da Lista\n", lista.primeiraPos->info);
-	adicionaFinalLista(&lista, 205);
-	printf("Elemento %i inserido no Final da Lista\n", lista.ultimaPos->info);
-	adicionaFinalLista(&lista, 2300);
-	printf("Elemento %i inserido no Final da Lista\n", lista.ultimaPos->info);
-	adicionaNoInicioLista(&lista, 1);
-	printf("Elemento %i inserido no Inicio da Lista\n", lista.primeiraPos->info);
-	adicionaFinalLista(&lista, 9300);
-	printf("Elemento %i inserido no Final da Lista\n", lista.ultimaPos->info);
-	adicionaNoInicioLista(&lista, 10000);
-	printf("Elemento %i inserido no Inicio da Lista\n", lista.primeiraPos->info);
-	adicionaFinalLista(&lista, 9300);
-	printf("Elemento %i inserido no Final da Lista\n", lista.ultimaPos->info);
-	adicionaNaPosicao(&lista, 100, 8);
-	printf("Elemento %i inserido na Posicao %i da Lista\n", lista.refMovel->info, lista.posLogAtual);
-	adicionaNaPosicao(&lista, 200, 10);
-	printf("Elemento %i inserido na Posicao %i da Lista\n", lista.refMovel->info, lista.posLogAtual);
-	adicionaNaPosicao(&lista, 2200, 0);
-	printf("Elemento %i inserido na Posicao %i da Lista\n", lista.refMovel->info, lista.posLogAtual);
+	printf("\nElemento 10 adicionado no inicio da lista");
+	adicionaFinalLista(&lista, 1000);
+	printf("\nElemento 1000 adicionado no fim da lista\n");
 
-	printf("\nPosicao log atual %i com o elemento %i, Tamanho da lista %i", lista.posLogAtual,
-	lista.refMovel->info, lista.TamInfo, lista.ultimaPos->info);
-	printf("\nPrimeiro elemento da lista %i e ultimo elemento %i\n", lista.primeiraPos->info, lista.ultimaPos->info);
 	imprimeLista(&lista);
-	printf("\n");
-	/*removeDaPosLog(&lista, 3);
-	printf("Elemento removida da posicao 3\n");
-	removeDaPosLog(&lista, 2);
-	printf("Elemento removida da posicao 2\n");
-	removeDaPosLog(&lista, 2);
-	printf("Elemento removida da posicao 2\n");
-	imprimeLista(&lista);  ????????*/
-	printf("\n");
-	printf("\nPosicao log atual %i com o elemento %i, Tamanho da lista %i", lista.posLogAtual,
-	lista.refMovel->info, lista.TamInfo, lista.ultimaPos->info);
 	
-	printf("\nElemento na posicao %i = %i", lista.posLogAtual,buscaNaPosicao(&lista, 6));
-	printf("\nElemento na posicao %i = %i", lista.posLogAtual,buscaNaPosicao(&lista, 9));
+	printf("\n\nPos log atual = %i, tamanho da lista %i", lista.posLogAtual, lista.TamInfo);
+	printf("\nElemento anterior = %i, proximo elemento = %i", lista.refMovel->anterior->info, lista.refMovel->proximo->info);
+	printf("\nPrimeiro elemento da lista= %i, ultimo elemento da lista= %i", lista.primeiraPos->info, lista.ultimaPos->info);
+	
+	printf("\n\nElemento na posica %i = %i", lista.posLogAtual,buscaNaPosicao(&lista, 0));
+	printf("\nPosicao logica atual %i", lista.posLogAtual);
+	printf("\nElemento na posica %i = %i", lista.posLogAtual,buscaNaPosicao(&lista, 3));
+	printf("\nPosicao logica atual %i", lista.posLogAtual);
+	printf("\nElemento na posica %i = %i", lista.posLogAtual,buscaNaPosicao(&lista, 7));
+	printf("\nPosicao logica atual %i", lista.posLogAtual);
+	printf("\nElemento na posica %i = %i", lista.posLogAtual,buscaNaPosicao(&lista, 5));
+	printf("\nPosicao logica atual %i\n", lista.posLogAtual);
+	
+	removeDaPosLog(&lista, 7);
+	printf("\nElemento removida da posicao 7");
+	imprimeLista(&lista);
+	
+	removeDaPosLog(&lista, 0);
+	printf("\nElemento removida da posicao 0");
+	imprimeLista(&lista);
+	
+	removeDaPosLog(&lista, 2);
+	printf("\nElemento removida da posicao 2");
+	imprimeLista(&lista);
+	
+	removeDaPosLog(&lista, 3);
+	printf("\nElemento removida da posicao 3");
+	imprimeLista(&lista);
+	
+	printf("\n");
+	system("PAUSE");
 }
 
 void iniciaLista(Descritor *lista){
@@ -83,21 +93,41 @@ void iniciaLista(Descritor *lista){
 	lista->primeiraPos = NULL;
 }
 
-void imprimeLista(Descritor *lista){
-	Descritor *aux;
-	
-	memcpy(aux, lista, sizeof(Descritor));
-
-	aux->refMovel = lista->primeiraPos;
-	aux->posLogAtual = 0;
-	int i=0;
-	while(aux->posLogAtual < aux->TamInfo){
-		printf("%i-%i, ", i,aux->refMovel->info);
-		aux->refMovel = aux->refMovel->anterior;
-		aux->posLogAtual++;
-		i++;
+bool listaVazia(Descritor *lista){
+	if(lista->TamInfo == 0){
+		return true;
+	}else{
+		return false;
 	}
-	free(aux);
+}
+
+void imprimeLista(Descritor *lista){
+	if(!(listaVazia(lista))){
+		printf("\nLista impressa: ");
+		if(lista->TamInfo == 1){
+			printf("%i", lista->primeiraPos->info);
+		}else{
+			Nodo *aux = lista->refMovel;
+			int posBefore = lista->posLogAtual;
+			
+			lista->refMovel  = lista->primeiraPos;
+			lista->posLogAtual = 0;
+			int i;
+			
+			for(i=0; i<lista->TamInfo; i++){
+				printf("%i-%i ", i,lista->refMovel->info);
+				lista->posLogAtual++;
+				lista->refMovel = lista->refMovel->anterior;
+			}
+			
+			lista->refMovel = aux;
+			lista->posLogAtual = posBefore;
+			
+			free(aux);
+		}		
+	}else{
+		printf("A lista esta vazia!");
+	}
 }
 
 void adicionaNoInicioLista(Descritor *lista, int valor){
@@ -173,14 +203,14 @@ void adicionaNaPosicao(Descritor *lista, int valor, int posAlvo){
 	}
 }
 
-void adicionaFinalLista(Descritor *lista, int valor){
-	Nodo *novo_no;
-	novo_no = (Nodo*)malloc(sizeof(Nodo));
-	novo_no->info = valor;
-	
+void adicionaFinalLista(Descritor *lista, int valor){	
 	if(lista->refMovel == NULL){
 		adicionaNoInicioLista(lista, valor);
 	}else{
+		Nodo *novo_no;
+		novo_no = (Nodo*)malloc(sizeof(Nodo));
+		novo_no->info = valor;
+		
 		lista->primeiraPos->proximo = novo_no;
 		
 		lista->refMovel = lista->ultimaPos;
@@ -188,12 +218,13 @@ void adicionaFinalLista(Descritor *lista, int valor){
 		novo_no->proximo = lista->refMovel;
 		
 		lista->refMovel = novo_no;
+		
+		lista->TamInfo++;
+		
+		novo_no->anterior = lista->primeiraPos;
+		lista->posLogAtual = lista->TamInfo-1;
+		lista->ultimaPos = novo_no;
 	}
-	
-	novo_no->anterior = lista->primeiraPos;
-	lista->TamInfo++;
-	lista->posLogAtual = lista->TamInfo-1;
-	lista->ultimaPos = novo_no;
 }
 
 int tamanhoDaLista(Descritor *lista){
@@ -202,8 +233,8 @@ int tamanhoDaLista(Descritor *lista){
 
 int buscaNaPosicao(Descritor *lista, int posAlvo){
 	if((posAlvo < lista->TamInfo) && (posAlvo >= 0)){ //Verifica se a posicao e valida
-		if(posAlvo <= lista->posLogAtual){ //Alvo esta a direita do referencial movel
-			if((fabs(lista->TamInfo-lista->posLogAtual) + posAlvo) < (fabs(lista->posLogAtual-posAlvo))){  //Percorre atual-direita
+		if(posAlvo <= lista->posLogAtual){ //Alvo esta a esqueda do referencial movel
+			if((fabs(lista->TamInfo-lista->posLogAtual) + posAlvo) < (fabs(lista->posLogAtual-posAlvo))){  //Percorre atual-direita (verificado logicamente)
 				while(lista->posLogAtual != posAlvo){
 					lista->refMovel = lista->refMovel->anterior;
 					lista->posLogAtual++;
@@ -212,14 +243,14 @@ int buscaNaPosicao(Descritor *lista, int posAlvo){
 					}
 				}
 				return lista->refMovel->info;
-			}else{ //Percorre atual-esquerda
+			}else{ //Percorre atual-esquerda (verificado logicamente)
 				while(lista->posLogAtual != posAlvo){
 					lista->refMovel = lista->refMovel->proximo;
 					lista->posLogAtual --;
 				}
 				return lista->refMovel->info;
 			}
-		}else{ //Alvo esta  a esquerda do referencial movel 
+		}else{ //Alvo esta  a direita do referencial movel (verificada logicamente)
 			if((lista->posLogAtual+(fabs(lista->TamInfo-posAlvo))) < (fabs(posAlvo-lista->posLogAtual))){ //Percorre atual-esquerda
 				while(lista->posLogAtual != posAlvo){
 					lista->refMovel = lista->refMovel->proximo;
@@ -240,39 +271,48 @@ int buscaNaPosicao(Descritor *lista, int posAlvo){
 			}
 		}
 		}else{
-			printf("\nPosicao invalida!\n");
-			return NULL; //????
+			printf("\nPosicao invalida! Posicao inicial = 0 e final = %i\n", lista->TamInfo-1);
+			return 0;
 		}
 }
 
 int removeDaPosLog(Descritor *lista, int posAlvo){
 	if((posAlvo < lista->TamInfo) && (posAlvo >= 0)){
-		int valor = buscaNaPosicao(lista, posAlvo);
+		int valorBuscado;
+		
+		if (posAlvo != lista->posLogAtual){
+			valorBuscado = buscaNaPosicao(lista, posAlvo);	
+		}else{
+			valorBuscado = lista->refMovel->info;
+		}
 		
 		Nodo *auxProximo = lista->refMovel->proximo;
 		Nodo *auxAnterior = lista->refMovel->anterior;
+		Nodo *aux = lista->refMovel;
+		
+		if(posAlvo == lista->TamInfo-1){
+			lista->refMovel = auxProximo;
+			lista->posLogAtual--;	
+		}else{
+			lista->refMovel = auxAnterior;
+		}
+		
+		free(aux);
 		
 		auxProximo->anterior = auxAnterior;
 		auxAnterior->proximo = auxProximo;
 		
 		lista->TamInfo--;
 		
-		Nodo *remover = lista->refMovel;
-		free(remover); //????????
-		
-		lista->refMovel = auxAnterior;	
-		
 		if(posAlvo == lista->TamInfo-1){
-			lista->primeiraPos->proximo = lista->refMovel->anterior;
-		}
-		
-		if(posAlvo == 0){
-			lista->ultimaPos->anterior = lista->refMovel->proximo; 
-		}
-		
-		
-		return valor;
+            lista->ultimaPos = lista->refMovel;
+        }
+
+        if(posAlvo == 0){
+            lista->primeiraPos = lista->refMovel;
+        }
 	}else{
-		return printf("\nErro, posicao invalida!");
+		printf("\nPosicao invalida!\n");
+		return 0;
 	}
 }
